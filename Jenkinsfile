@@ -14,7 +14,7 @@ pipeline {
             }
             steps {
                 script {
-                    def customImage = docker.build("${DOCKER_IMAGE}", " -f app/Dockerfile .")
+                    def customImage = docker.build("${DOCKER_IMAGE}", " -f Dockerfile .")
                     docker.withRegistry('', 'dockerHub') {
                         customImage.push("${BUILD_NUMBER}")
                     }
