@@ -1,0 +1,129 @@
+# Default values for gx-xailing.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+image:
+  repository: 758563266136.dkr.ecr.us-east-1.amazonaws.com/gx-xibalba
+  pullPolicy: IfNotPresent
+  containerPort: 3000
+  env:
+    - name: API_URL
+      value: 'https://api-parks.ci.xcaret.com/api/v1'
+    - name: API_CMS_URL
+      value: "https://api-cms.ci.xcaret.com/api/v1"
+    - name: CMS_URL_VERSION
+      value: "/cms/content"
+    - name: S3_URL
+      value: "https://s3.us-east-1.amazonaws.com/comercial-production-gx-cms-content-bucket"
+    - name: HOTEL_URL
+      value: ""
+    - name: FACEBOOK_APPID
+      value: ""
+    - name: GOOGLE_CID
+      value: ""
+    - name: COUPON_URL
+      value: ""
+    - name: GOOGLE_MAPS_API_KEY
+      value: ""
+    - name: NODE_ENV
+      value: 'production'
+    - name: ELASTIC_APM_SERVICE_NAME
+      value: 'GX-XIBALBA'
+    - name: ELASTIC_APM_SERVER_URL
+      value: ''
+    - name: ELASTIC_APM_SECRET_TOKEN
+      value: ''
+    - name: ELASTIC_APM_HOSTNAME
+      value: 'www.xibalba.travel'
+    - name: ELASTIC_APM_LOG_LEVEL
+      value: 'info'
+    - name: ELASTIC_APM_ACTIVE
+      value: true
+    - name: ELASTIC_APM_VERSION
+      value: '0.1.0'
+    - name: REDIS_PREFIX
+      value: 'gx-xibalba'
+    - name: BUILD_VERSION
+      value: ''
+    - name: PORT
+      value: 3000
+    - name: SITE_CODE
+      value: 'XIBALBA'
+    - name: HOST_URL
+      value: 'www.xibalba.travel'
+    - name: HAS_BOOKING
+      value: false
+
+imagePullSecrets: []
+nameOverride: ''
+fullnameOverride: ''
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+securityContext:
+  # capabilities:
+  #   drop:
+  #   - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 3000
+
+ingress:
+  enabled: true
+  hosts:
+    - host: 'www.xailing.com'
+      paths: ['/']
+  annotations:
+    kubernetes.io/ingress.class: 'nginx'
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 70
+  vpa:
+    enabled: true
+
+livenessProbe:
+  httpGet:
+    path: /healthcheck
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 10
+readinessProbe:
+  httpGet:
+    path: /healthcheck
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 10
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
