@@ -3,7 +3,7 @@ WORKDIR /app
 COPY . .
 ARG npm_token
 
-RUN npm install --prod
+RUN npm install
 RUN npm run build
 
 FROM node:12-slim
