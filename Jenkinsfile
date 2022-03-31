@@ -10,12 +10,12 @@ pipeline {
         }
         stage('Build') {
             environment {
-                DOCKER_IMAGE = 'fernandoaban/test-devops'
+                DOCKER_IMAGE = 'fernandoaban/test-devops:tagname'
             }
             steps {
                 script {
                     def customImage = docker.build("${DOCKER_IMAGE}", " -f Dockerfile .")
-                    docker.withRegistry("", 'dockerHub') {
+                    docker.withRegistry('', 'dockerHub') {
                         customImage.push("${BUILD_NUMBER}")
                     }
                 }
