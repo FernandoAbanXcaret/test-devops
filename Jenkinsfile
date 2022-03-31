@@ -10,11 +10,11 @@ pipeline {
         }
         stage('Build') {
             environment {
-                DOCKER_IMAGE = 'etejeda/hello-app-golang'
+                DOCKER_IMAGE = 'fernandoaban/test-devops'
             }
             steps {
                 script {
-                    def customImage = docker.build("${DOCKER_IMAGE}", " -f hello-app/Dockerfile .")
+                    def customImage = docker.build("${DOCKER_IMAGE}", " -f Dockerfile .")
                     docker.withRegistry("", 'dockerHub') {
                         customImage.push("${BUILD_NUMBER}")
                     }
