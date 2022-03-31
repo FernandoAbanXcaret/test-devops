@@ -1,12 +1,15 @@
-FROM golang:1.17 as build-env
-WORKDIR /go/src/app
-ADD hello-app/main.go /go/src/app
-ADD hello-app/go.mod /go/src/app
-RUN go mod tidy
-RUN go build -o /go/bin/app
+FROM node:12 AS BUILDER
+WORKDIR /app
+COPY . .
+ARG npm_token
 
-FROM gcr.io/distroless/base
-LABEL org.opencontainers.image.authors="Enrique Tejeda"
-COPY --from=build-env /go/bin/app /
-CMD ["/app"]
-	
+RUN npm install --prod
+RUN npm run build
+
+FROM node:12-slim
+ENV TZ=America/Cancun
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+WORKDIR /app
+COPY --from=BUILDER /app .
+EXPOSE 3000
+CMD ["npm","run","start"]
