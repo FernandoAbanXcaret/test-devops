@@ -14,7 +14,7 @@ pipeline {
         }
         stage('build'){
             steps {
-               sh 'docker build -t fernandoaban/test-devops:lastest'
+               sh 'docker build -t fernandoaban/test-devops:lastest .'
             }
         }
         stage('login'){
