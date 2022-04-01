@@ -8,9 +8,9 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Build') {
+        stage('Deploy to PR') {
             environment {
-                DOCKER_IMAGE = 'fernandoaban/test-devops:tagname'
+                DOCKER_IMAGE = 'fernandoaban/test-devops'
             }
             steps {
                 script {
@@ -21,15 +21,19 @@ pipeline {
                 }
             }
         }
-        stage('Test'){
-            steps {
-                echo 'Unit Tests'
-            }
-        }
         stage('Deploy to Production'){
+             agent {
+            label 'master'
+          }
+          when {
+            branch 'main'
+          }
             steps {
                 script {
-                    echo 'Hey!'
+                    def customImage = docker.build("${DOCKER_IMAGE}", " -f Dockerfile .")
+                    docker.withRegistry('', 'dockerHub') {
+                        customImage.push("${BUILD_NUMBER}")
+                    }
                 }
             }
         }

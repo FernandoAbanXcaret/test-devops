@@ -7,6 +7,7 @@ RUN npm install
 RUN npm run build
 
 FROM node:12-slim
+LABEL org.opencontainers.image.authors="Fernando Aban"
 ENV TZ=America/Cancun
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 WORKDIR /app
