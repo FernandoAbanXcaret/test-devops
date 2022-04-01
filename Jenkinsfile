@@ -30,9 +30,6 @@ pipeline {
             }
         }
         stage('Deploy to Production'){
-            agent {
-                label 'master'
-            }
             when {
                 branch 'main'
             }
