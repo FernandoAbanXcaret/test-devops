@@ -5,6 +5,7 @@ pipeline {
     environment {
        
         DOCKER_IMAGE = 'fernandoaban/test-devops'
+        DOCKERHUB_CREDENTIALS = credentials('faban-dockerhub')
     }
     stages {
         stage('Checkout'){
@@ -19,21 +20,13 @@ pipeline {
         }
         stage('login'){
             steps {
-              sh 'echo fernandoaban | docker login -u 40ca36cd-2797-43ac-bbce-0ef31cf0be34 --password-stdin'
+              sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
 
         stage('Deploy to PR') {
-            environment {
-                DOCKER_IMAGE = 'fernandoaban/test-devops'
-            }
             steps {
-                script {
-                    def customImage = docker.build("${DOCKER_IMAGE}", " -f Dockerfile .")
-                    docker.withRegistry('', 'Faban') {
-                        customImage.push("${BUILD_NUMBER}")
-                    }
-                }
+               SH 'docker push fernandoaban/test-devops:lastest'
             }
         }
         stage('Deploy to Production'){
@@ -44,13 +37,12 @@ pipeline {
                 branch 'main'
             }
             steps {
-                script {
-                    def customImage = docker.build("${DOCKER_IMAGE}", " -f Dockerfile .")
-                    docker.withRegistry('', 'dockerHub') {
-                        customImage.push("${BUILD_NUMBER}")
-                        customImage.push('latest')
-                    }
-                }
+               SH 'docker push fernandoaban/test-devops:lastest'
+            }
+        }
+        post {
+            always {
+                sh 'docker logout'
             }
         }
     }
