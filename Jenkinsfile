@@ -26,7 +26,7 @@ pipeline {
 
         stage('Deploy to PR') {
             steps {
-               SH 'docker push fernandoaban/test-devops:lastest'
+               sh 'docker push fernandoaban/test-devops:lastest'
             }
         }
         stage('Deploy to Production'){
@@ -37,7 +37,7 @@ pipeline {
                 branch 'main'
             }
             steps {
-               SH 'docker push fernandoaban/test-devops:lastest'
+               sh 'docker push fernandoaban/test-devops:lastest'
             }
         }
         post {
