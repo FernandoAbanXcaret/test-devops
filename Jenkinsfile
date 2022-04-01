@@ -3,13 +3,8 @@ pipeline {
     agent any
     options { skipDefaultCheckout true }
     environment {
-        NAMEJOB = "test-devops"
         DOCKERHUB_CREDENTIALS=credentials('Faban')
-        IMAGE = "test-devops:latest"   
-        CONTAINER_IMAGE = "node:12"
-        PORT_CONTAINER = "3000"
-        HELM_CHART_NAME = "xervigas"
-        NODE_ENV = "production"
+        DOCKER_IMAGE = 'fernandoaban/test-devops'
     }
     stages {
         stage('Checkout'){
@@ -24,7 +19,7 @@ pipeline {
         }
         stage('login'){
             steps {
-              sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+              sh 'echo 40ca36cd-2797-43ac-bbce-0ef31cf0be34 | docker login -u fernandoaban --password-stdin'
             }
         }
 
@@ -34,7 +29,7 @@ pipeline {
             }
             steps {
                 script {
-                    def customImage = docker.build("${IMAGE}", " -f Dockerfile .")
+                    def customImage = docker.build("${DOCKER_IMAGE}", " -f Dockerfile .")
                     docker.withRegistry('', 'Faban') {
                         customImage.push("${BUILD_NUMBER}")
                     }
