@@ -3,7 +3,7 @@ pipeline {
     agent any
     options { skipDefaultCheckout true }
     environment {
-        DOCKERHUB_CREDENTIALS=credentials('Faban')
+       
         DOCKER_IMAGE = 'fernandoaban/test-devops'
     }
     stages {
@@ -19,7 +19,7 @@ pipeline {
         }
         stage('login'){
             steps {
-              sh 'echo $DOCKERHUB_CREDENTIALS_USR | docker login -u $DOCKERHUB_CREDENTIALS_PSW --password-stdin'
+              sh 'echo fernandoaban | docker login -u 40ca36cd-2797-43ac-bbce-0ef31cf0be34 --password-stdin'
             }
         }
 
