@@ -40,10 +40,11 @@ pipeline {
                sh 'docker push fernandoaban/test-devops:lastest'
             }
         }
-        post {
+        
+    }
+    post {
             always {
                 sh 'docker logout'
             }
         }
-    }
 }
