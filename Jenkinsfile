@@ -42,7 +42,6 @@ pipeline {
     }
     post {
         always {
-           
             cleanWs()
             dir("${env.WORKSPACE}@tmp") {
                 deleteDir()
@@ -55,4 +54,5 @@ pipeline {
             }
             sh 'docker logout'
         }
+    }
 }
