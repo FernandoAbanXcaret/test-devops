@@ -24,7 +24,10 @@ pipeline {
             }
         }
 
-        stage('Deploy to PR') {
+        stage('Deploy to PR') 
+            when {
+                expression { env.CHANGE_ID ==~ /.*/ }
+            }
             steps {
                sh 'docker push fernandoaban/test-devops:lastest'
             }
@@ -42,6 +45,16 @@ pipeline {
     post {
             always {
                 sh 'docker logout'
+                cleanWs()
+                dir("${env.WORKSPACE}@tmp") {
+                    deleteDir()
+                }
+                dir("${env.WORKSPACE}@script") {
+                    deleteDir()
+                }
+                dir("${env.WORKSPACE}@script@temp") {
+                    deleteDir()
+                }
             }
         }
 }

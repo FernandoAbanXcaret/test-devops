@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "gx-xibalba.fullname" . }}
+  name: {{ include "test-devops.fullname" . }}
   labels:
-    {{- include "gx-xibalba.labels" . | nindent 4 }}
+    {{- include "test-devops.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "gx-xibalba.selectorLabels" . | nindent 6 }}
+      {{- include "test-devops.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "gx-xibalba.selectorLabels" . | nindent 8 }}
+        {{- include "test-devops.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "gx-xibalba.serviceAccountName" . }}
+      serviceAccountName: {{ include "test-devops.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
