@@ -3,7 +3,6 @@ pipeline {
     agent any
     options { skipDefaultCheckout true }
     environment {
-       
         DOCKER_IMAGE = 'fernandoaban/test-devops'
         DOCKERHUB_CREDENTIALS = credentials('faban-dockerhub')
     }
@@ -23,7 +22,6 @@ pipeline {
               sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
-
         stage('Deploy to PR'){ 
             when {
                 expression { env.CHANGE_ID ==~ /.*/ }
@@ -44,7 +42,7 @@ pipeline {
     }
     post {
         always {
-            sh 'docker logout'
+           
             cleanWs()
             dir("${env.WORKSPACE}@tmp") {
                 deleteDir()
@@ -55,5 +53,6 @@ pipeline {
             dir("${env.WORKSPACE}@script@temp") {
                 deleteDir()
             }
+            sh 'docker logout'
         }
 }
