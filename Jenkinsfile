@@ -36,23 +36,22 @@ pipeline {
             }
             steps {
                sh 'docker push fernandoaban/test-devops:lastest'
+                cleanWs()
+                dir("${env.WORKSPACE}@tmp") {
+                    deleteDir()
+                }
+                dir("${env.WORKSPACE}@script") {
+                    deleteDir()
+                }
+                dir("${env.WORKSPACE}@script@temp") {
+                    deleteDir()
+                }
             }
         }
         
     }
     post {
-        always {
-           
-            cleanWs()
-            dir("${env.WORKSPACE}@tmp") {
-                deleteDir()
-            }
-            dir("${env.WORKSPACE}@script") {
-                deleteDir()
-            }
-            dir("${env.WORKSPACE}@script@temp") {
-                deleteDir()
-            }
+        always {           
             sh 'docker logout'
         }
 }
