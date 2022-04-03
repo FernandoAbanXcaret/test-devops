@@ -1,0 +1,23 @@
+version: 1
+merge:
+  whitelist:
+    labels: ["merge when ready"]
+    comments: ["merge r+"]
+    branches: ["master","main"]
+  blacklist:
+    labels: ["do not merge"]
+  method: squash
+  branch_method:
+    master: squash
+    main: squash
+  options:
+    squash:
+      title: "pull_request_title"
+      body: "summarize_commits"
+      message_delimiter: ==COMMIT_MSG==
+  delete_after_merge: true
+update:
+  whitelist:
+    labels: ["WIP", "Update Me"]
+  blacklist:
+    labels: ["Do Not Update"]

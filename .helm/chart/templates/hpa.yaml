@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "gx-xibalba.fullname" . }}
+  name: {{ include "test-devops.fullname" . }}
   labels:
-    {{- include "gx-xibalba.labels" . | nindent 4 }}
+    {{- include "test-devops.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ template "gx-xibalba.fullname" . }}
+    name: {{ template "test-devops.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

@@ -2,7 +2,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "gx-xibalba.name" -}}
+{{- define "test-devops.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -11,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "gx-xibalba.fullname" -}}
+{{- define "test-devops.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -27,16 +27,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "gx-xibalba.chart" -}}
+{{- define "test-devops.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
-{{- define "gx-xibalba.labels" -}}
-helm.sh/chart: {{ include "gx-xibalba.chart" . }}
-{{ include "gx-xibalba.selectorLabels" . }}
+{{- define "test-devops.labels" -}}
+helm.sh/chart: {{ include "test-devops.chart" . }}
+{{ include "test-devops.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -46,17 +46,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "gx-xibalba.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "gx-xibalba.name" . }}
+{{- define "test-devops.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "test-devops.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "gx-xibalba.serviceAccountName" -}}
+{{- define "test-devops.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
-    {{ default (include "gx-xibalba.fullname" .) .Values.serviceAccount.name }}
+    {{ default (include "test-devops.fullname" .) .Values.serviceAccount.name }}
 {{- else -}}
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}

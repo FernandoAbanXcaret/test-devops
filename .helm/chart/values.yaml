@@ -4,7 +4,7 @@
 
 replicaCount: 1
 image:
-  repository: 758563266136.dkr.ecr.us-east-1.amazonaws.com/gx-xibalba
+  repository: 758563266136.dkr.ecr.us-east-1.amazonaws.com/test-devops
   pullPolicy: IfNotPresent
   containerPort: 3000
   env:
@@ -29,7 +29,7 @@ image:
     - name: NODE_ENV
       value: 'production'
     - name: ELASTIC_APM_SERVICE_NAME
-      value: 'GX-XIBALBA'
+      value: 'test-devops'
     - name: ELASTIC_APM_SERVER_URL
       value: ''
     - name: ELASTIC_APM_SECRET_TOKEN
@@ -43,7 +43,7 @@ image:
     - name: ELASTIC_APM_VERSION
       value: '0.1.0'
     - name: REDIS_PREFIX
-      value: 'gx-xibalba'
+      value: 'test-devops'
     - name: BUILD_VERSION
       value: ''
     - name: PORT
