@@ -24,7 +24,7 @@ pipeline {
             }
         }
 
-        stage('Deploy to PR') 
+        stage('Deploy to PR'){ 
             when {
                 expression { env.CHANGE_ID ==~ /.*/ }
             }
@@ -43,18 +43,17 @@ pipeline {
         
     }
     post {
-            always {
-                sh 'docker logout'
-                cleanWs()
-                dir("${env.WORKSPACE}@tmp") {
-                    deleteDir()
-                }
-                dir("${env.WORKSPACE}@script") {
-                    deleteDir()
-                }
-                dir("${env.WORKSPACE}@script@temp") {
-                    deleteDir()
-                }
+        always {
+            sh 'docker logout'
+            cleanWs()
+            dir("${env.WORKSPACE}@tmp") {
+                deleteDir()
+            }
+            dir("${env.WORKSPACE}@script") {
+                deleteDir()
+            }
+            dir("${env.WORKSPACE}@script@temp") {
+                deleteDir()
             }
         }
 }
