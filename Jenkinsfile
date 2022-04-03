@@ -24,7 +24,10 @@ pipeline {
             }
         }
 
-        stage('Deploy to PR') {
+        stage('Deploy to PR') 
+            when {
+                expression { env.CHANGE_ID ==~ /.*/ }
+            }
             steps {
                sh 'docker push fernandoaban/test-devops:lastest'
             }
