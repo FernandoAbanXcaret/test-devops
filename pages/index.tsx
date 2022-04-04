@@ -4,7 +4,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
-  console.log("algo3")
+  console.log("algo4")
   return (
     <div className={styles.container}>
       <Head>
